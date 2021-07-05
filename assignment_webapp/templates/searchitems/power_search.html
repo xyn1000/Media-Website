@@ -1,0 +1,108 @@
+{% include 'top.html' %}
+    <div class="content">
+        <h1 class="title">Power Search Results</h1>
+
+        <div class="panel panel-primary">
+            <h3>Movies</h3>
+
+        <!-- All Movies -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Movie ID</td>
+                        <td>Movie Name</td>
+                        <td>Movie Release Year</td>
+                    </tr>
+                </thead>
+                {% if movies | length > 0 %}
+                <tbody>
+                    {% for instance in movies %}
+                        <!-- Each row is a link to each individual movie page -->
+                        <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                            <td>{{ instance.movie_id }}</td>
+                            <td>{{instance.movie_title}}</td>
+                            <td>{{instance.release_year}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+
+        <div class="panel panel-primary">
+            <h3>TV Shows</h3>
+            {% if tvshows | length > 0 %}
+                <!-- All TV Shows -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>TV Show ID</td>
+                            <td>TV Show Name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in tvshows %}
+                            <!-- Each row is a link to each individual tvshow page -->
+                            <tr class="clickable-tr" data-href="{{ url_for('single_tvshow', tvshow_id=instance.tvshow_id)}}">
+                                <td>{{ instance.tvshow_id }}</td>
+                                <td>{{instance.tvshow_title}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+
+        <div class="panel panel-primary">
+            {% if podcasts | length > 0 %}
+                <h3>Podcasts</h3>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Podcast ID</td>
+                            <td>Podcast Title</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in podcasts %}
+                            <!-- Each row is a link to each individual tvshow page -->
+                            <tr class="clickable-tr" data-href="{{ url_for('single_podcast', podcast_id=instance.podcast_id)}}">
+                                <td>{{ instance.podcast_id}}</td>
+                                <td>{{instance.podcast_title}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+
+        <div class="panel panel-primary">
+            <h3>Songs</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Song ID</td>
+                        <td>Song Name</td>
+                        <td>Artists</td>
+                        <td>Genre</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for instance in songs %}
+                        <!-- Each row is a link to each individual song page -->
+                        <tr class="clickable-tr" data-href="{{ url_for('single_song', song_id=instance.song_id)}}">
+                            <td>{{ instance.song_id }}</td>
+                            <td>{{instance.song_title}}</td>
+                            <td>{{instance.artists}}</td>
+                            <td>{{ instance.genre }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+{% include 'bottom.html'%}

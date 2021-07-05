@@ -1,0 +1,58 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- TODO Query 6  
+        Display All Relevant Podcast Infromation including meta data
+        Display All Relevant Podcast Episodes for this Podcast
+        -->
+        {% if podcast and episodes | length > 0 %}
+            <!-- Podcast Episodes -->
+                <h3>{{podcast[0].podcast_title}}</h3>
+
+                {% for instance in podcast %}
+                    {% if instance.md_type_name == "artwork" %}
+                        <div>
+                            <h3>{{ instance.md_type_name }}</h3>
+                            <div>
+                                <img width="400px" src="{{ instance.md_value }}" alt="podcastPicture">
+                            </div>
+                        </div>
+                    {% else %}
+                        <div>
+                            <h3>{{ instance.md_type_name }}</h3>
+                            <div>
+                            {% for line in instance.md_value.split('\\n') %}
+                            {{ line | safe}}
+                            <br />
+                            {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Podcast Episode Media ID</td>
+                            <td>Podcast Episode Title</td>
+                            <td>Podcast Episode URI</td>
+                            <td>Podcast Episode Published Date</td>
+                            <td>Podcast Episode Length</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instance in episodes %}
+                        <tr class="clickable-tr" data-href="{{ url_for('single_podcastep', media_id=instance.media_id)}}">
+                            <td>{{ instance.media_id }}</td>
+                            <td>{{ instance.podcast_episode_title }}</td>
+                            <td>{{ instance.podcast_episode_uri }}</td>
+                            <td>{{ instance.podcast_episode_published_date }}</td>
+                            <td>{{ instance.podcast_episode_length }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        {% endif %}
+    </div>
+</div>
+{% include 'bottom.html'%}

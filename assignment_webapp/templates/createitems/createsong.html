@@ -1,0 +1,96 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+
+        <h2 class="title"> Add Song </h2>
+        <hr>
+        <!-- Song Schema 
+            CREATE TABLE Song (
+                song_id INTEGER PRIMARY KEY REFERENCES AudioMedia(media_id),
+                song_title VARCHAR(100),
+                length INTEGER
+            );
+            Associated Media_id information
+                - storage location
+            Associated Artist information
+                - artist_id
+            Associated Meta data
+                - description (4)
+                - song_genre (1)
+                - artwork (3)
+        -->
+        <!-- Query 9
+            TODO
+            Add Song
+            You will need to create a form for taking in input. Remember the input has to be valid,
+            so you will have to check the data somewhere. The best way is to pass any relevant information that is
+            needed to this page (such as artists, metadata type id's or values) and then manage the display similar to what is
+            done in the drop down menu for the search bar
+        -->
+        <form action="{{url_for('add_song')}}" method="post">
+            <div class="form-group row">
+                <label for="song_title" class="col-4 col-form-label">Song Title</label>
+                <div class="col-8">
+                    <div class="input-group">
+                        <input id="song_title" name="song_title" type="text" required="required" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="song_length" class="col-4 col-form-label">Length</label>
+                <div class="col-8">
+                    <input id="song_length" name="song_length" type="text" class="form-control" required="required">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="storage" class="col-4 col-form-label">Storage Location</label>
+                <div class="col-8">
+                    <input id="storage" name="storage" type="text" required="required" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="song_genre" class="col-4 col-form-label">Genre</label>
+                <div class="col-8">
+                    <select id="song_genre" name="song_genre" class="form-control selectpicker" data-live-search="true">
+                        {% for instance in genres %}
+                            <option value="{{ instance.md_id }}">{{ instance.md_value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="artist" class="col-4 col-form-label">Artist</label>
+                <div class="col-8">
+                    <select id="artist" name="artist" class="form-control selectpicker" data-live-search="true">
+                        {% for instance in artists %}
+                            <option value="{{ instance.artist_id }}">{{ instance.artist_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="song_artwork" class="col-4 col-form-label">Artwork</label>
+                <div class="col-8">
+                    <input id="song_artwork" name="song_artwork" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="song_description" class="col-4 col-form-label">Description</label>
+                <div class="col-8">
+                    <textarea id="song_description" name="song_description" cols="40" rows="5"
+                              class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-4 col-8">
+                    <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <br/>
+        <br/>
+    </div>
+    {% include 'bottom.html' %}

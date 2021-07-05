@@ -1,0 +1,60 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- TODO Query 7
+        Display All Relevant Podcast Episode Infromation including meta data
+        -->
+        {% if episode | length > 0 %}
+            <h2 class="title"> {{episode[0].podcast_episode_title}} published on {{episode[0].podcast_episode_published_date}} </h2>
+            <br/>
+
+            <h3>Episode Length: {{episode[0].podcast_episode_length // 3600}} hrs {{episode[0].podcast_episode_length % 3600 // 60}} mins {{episode[0].podcast_episode_length % 3600 % 60}} seconds </h3>
+            <br/>
+
+            <div id="aplayer"></div>
+            
+            <h3> Artworks </h3>
+            {% for instance in episode %}
+                {% if instance.md_type_name == 'artwork' %}
+                    <img width="450px" src="{{instance.md_value}}" alt="image">
+                    <br/>
+                {% endif %}
+            {% endfor %}
+            <br/>
+            <h3> Descriptions </h3>
+            {% for instance in episode %}
+                {% if instance.md_type_name == 'description' %}
+                    <div>
+                        {% for line in instance.md_value.split('\\n') %}
+                            {{ line | safe}}
+                            <br />
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h2 class="title"> Invalid Podcast Ep ID</h2>
+        {% endif %}
+
+    </div>
+</div>
+<script>
+    let picAddr
+    try {
+        picAddr = document.getElementsByTagName("img")[0].src;
+    } catch (e){
+        picAddr = null;
+    }
+    const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    audio: [{
+        name: '{{episode[0].podcast_episode_title}}',
+        artist: {{episode[0].podcast_episode_length}},
+        url: '{{ episode[0].podcast_episode_uri }}',
+        cover: picAddr
+    }]
+});
+</script>
+
+{% include 'bottom.html'%}

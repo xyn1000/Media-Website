@@ -1,0 +1,47 @@
+{% include 'top.html' %}
+    <div class="content">
+        <h1 class="title">Search Movies</h1>
+
+        <form class="Search" method="POST" action="{{url_for('search_movies')}}">
+            <label>
+                <input type="text" name="searchterm" placeholder="Search..." autofocus required>
+            </label>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <!-- Query 10
+            Search for Movies
+            You need two sections
+            First is a form to take in input
+            Second is a table to display reults
+         -->
+        <div>
+        <!-- All Movies -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Movie ID</td>
+                        <td>Movie Name</td>
+                        <td>Movie Release Year</td>
+                        <td>Movie Metadata Count</td>
+                    </tr>
+                </thead>
+                {% if movies | length > 0 %}
+                <tbody>
+                    {% for instance in movies %}
+                        <!-- Each row is a link to each individual movie page -->
+                        <tr class="clickable-tr" data-href="{{ url_for('single_movie', movie_id=instance.movie_id)}}">
+                            <td style="text-align: center">{{ instance.movie_id }}</td>
+                            <td>{{instance.movie_title}}</td>
+                            <td>{{instance.release_year}}</td>
+                            <td>{{instance.count}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+
+            </table>
+
+        </div>
+    </div>
+{% include 'bottom.html'%}
